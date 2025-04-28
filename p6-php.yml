@@ -1,5 +1,5 @@
 ---
-- name: Install nodejs
+- name: Install php
   become: yes
   hosts: all
 
