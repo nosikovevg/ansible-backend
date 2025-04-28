@@ -5,8 +5,11 @@
 
   vars_files:
     - vars.yml
-
   tasks:
+    -  name: Update apt cache
+       apt:
+        update_cache: yes
+
     -  name: Install PHP 8.1 and php-fpm packages
        apt:
         name:
