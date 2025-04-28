@@ -10,6 +10,17 @@
        apt:
         update_cache: yes
 
+    -  name: Установить зависимости для добавления PPA
+       apt:
+        name: software-properties-common
+        state: present
+
+    -  name: Добавить PPA для PHP 8.1
+       apt_repository:
+        repo: ppa:ondrej/php
+        state: present
+        update_cache: yes
+
     -  name: Install PHP 8.1 and php-fpm packages
        apt:
         name:
