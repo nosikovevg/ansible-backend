@@ -10,12 +10,10 @@
     -  name: Install PHP 8.1 and php-fpm packages
        apt:
         name:
-          - php8.1
           - php8.1-fpm
-          - php8.1-cli
           - php8.1-mysql          
         state: present
-       update_cache: yes
+        update_cache: yes
 
     -  name: php version
        shell: php -v
