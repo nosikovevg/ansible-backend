@@ -73,3 +73,8 @@
         backup: yes
       notify:
         - Restart mysql
+  handlers:
+    - name: Restart mysql
+      service:
+        name: mysql
+        state: restarted
