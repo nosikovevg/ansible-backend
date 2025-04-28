@@ -1,0 +1,25 @@
+---
+- name: Install nodejs
+  become: yes
+  hosts: all
+
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+
+    - name: Установить Node.js
+      apt:
+        name: nodejs
+        state: present
+    
+    - name: Показать версию установленной Node.js
+      command: node -v
+      register: node_version_output
+
+    - name: Вывести версию Node.js на экран
+      debug:
+        msg: "Установлена версия Node.js: {{ node_version_output.stdout }}"
+
+
