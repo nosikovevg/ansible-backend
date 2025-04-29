@@ -78,7 +78,7 @@
       ansible.builtin.npm:
         name: pm2
         global: yes
-
+#---------------------------------------------------------2
     - name: Start Express server with pm2
       ansible.builtin.shell: pm2 start index.js --name backend --watch
       args:
@@ -90,7 +90,7 @@
       args:
         chdir: /var/www/trur/
 
-
+#---------------------------------------------------------2
 
     - name: Copy nginx config file for truruki
       copy:
