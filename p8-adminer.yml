@@ -9,11 +9,7 @@
     -  name: Update apt cache
        apt:
         update_cache: yes
-    - name: download  
-      get_url:
-        url: https://github.com/vrana/adminer/releases/download/v4.7.3/adminer-4.7.3-mysql.php
-        dest: /tmp/
-        mode: 0755
+
 
 
 #---------------------------------------------------------      
@@ -23,11 +19,19 @@
         state: directory
         mode: 0777
 #---------------------------------------------------------
-    - name: Copy files adminer
-      copy:
-        src: /tmp/adminer-4.7.3-mysql.php
-        dest: /var/www/html/adminer/index.php
-        remote_src: yes
+
+    - name: download  
+      get_url:
+        url: https://github.com/vrana/adminer/releases/download/v4.7.3/adminer-4.7.3-mysql.php
+        dest: /var/www/html/adminer/
+        mode: 0755
+
+
+#    - name: Copy files adminer
+#      copy:
+#        src: /tmp/adminer-4.7.3-mysql.php
+#        dest: /var/www/html/adminer/index.php
+#        remote_src: yes
 #---------------------------------------------------------
 
 #---------------------------------------------------------      
