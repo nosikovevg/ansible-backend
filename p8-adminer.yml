@@ -38,4 +38,12 @@
         group: www-data
         recurse: yes
 
+    - name: Change mode
+      file:
+        path: /var/www/html/adminer/index.php
+        mode: 0755
 
+    - name: Reload nginx
+      service:
+        name: nginx
+        state: restarted   
