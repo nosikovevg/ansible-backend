@@ -85,6 +85,12 @@
         chdir: /var/www/trur/
 
 
+    - name: Start Express server with nohup
+      ansible.builtin.shell: nohup node index.js > output.log 2>&1 &
+      args:
+        chdir: /var/www/trur/
+
+
 
     - name: Copy nginx config file for truruki
       copy:
