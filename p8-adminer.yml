@@ -27,11 +27,11 @@
         mode: 0755
 
 
-#    - name: Copy files adminer
-#      copy:
-#        src: /tmp/adminer-4.7.3-mysql.php
-#        dest: /var/www/html/adminer/index.php
-#        remote_src: yes
+    - name: Copy files adminer
+      copy:
+        src: /var/www/html/adminer/adminer.php
+        dest: /var/www/html/adminer/index.php
+        remote_src: yes
 #---------------------------------------------------------
 
 #---------------------------------------------------------      
