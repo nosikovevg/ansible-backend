@@ -1,0 +1,41 @@
+---
+- name: adminer
+  become: yes
+  hosts: all
+
+  vars_files:
+    - vars.yml
+  tasks:
+    -  name: Update apt cache
+       apt:
+        update_cache: yes
+    - name: download  
+      get_url:
+        url: https://github.com/vrana/adminer/releases/download/v4.7.3/adminer-4.7.3-mysql.php
+        dest: /tmp/
+        mode: 0755
+
+
+#---------------------------------------------------------      
+    - name: Create a directory if it does not exist
+      file:
+        path: /var/www/html/adminer
+        state: directory
+        mode: 0777
+#---------------------------------------------------------
+    - name: Copy files adminer
+      copy:
+        src: /tmp/adminer-4.7.3-mysql.php
+        dest: /var/www/html/adminer/index.php
+        remote_src: yes
+#---------------------------------------------------------
+
+#---------------------------------------------------------      
+    - name: Change owner
+      file:
+        path: /var/www/html/adminer
+        owner: www-data
+        group: www-data
+        recurse: yes
+
+
