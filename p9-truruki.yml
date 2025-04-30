@@ -63,11 +63,11 @@
         path: /var/www/trur/.git/
         state: absent
 
-    - name: Ensure npm is installed
-      ansible.builtin.apt:
-        name: npm
-        state: present
-      become: yes
+#    - name: Ensure npm is installed
+#      ansible.builtin.apt:
+#        name: npm
+#        state: present
+#      become: yes
 
     - name: Install Node.js dependencies using npm
       community.general.npm:
