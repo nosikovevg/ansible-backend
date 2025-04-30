@@ -1,0 +1,121 @@
+---
+- name: adminer
+  become: yes
+  hosts: all
+
+  vars_files:
+    - vars.yml
+  tasks:
+    -  name: Update apt cache
+       apt:
+        update_cache: yes
+
+    - name: Recursively remove directory
+      file:
+        path: /var/www/trur/
+        state: absent
+
+
+    - name: Create a directory if it does not exist
+      file:
+        path: /var/www/trur
+        state: directory
+        mode: 0777
+
+
+#---------------------------------------------------------2
+    - name: Installing git
+      package:
+        name: git
+        state: present
+        update_cache: yes
+
+
+    - name: Copy key
+      copy:
+        src: /home/neo/.ssh/id_ed25519
+        dest: /root/.ssh/id_ed25519
+        owner: root
+        group: root
+        mode: 0600
+
+
+    - name: Unconditionally reboot the machine with all defaults
+      ansible.builtin.reboot:
+ 
+
+
+    - name: Copy files from github
+      git:
+        repo: git@github.com:nosikovevg/backend.git
+        dest: /var/www/trur/
+        key_file: /root/www/.ssh/id_ed25519
+        accept_hostkey: yes
+        force: yes  
+       
+        recursive: yes
+        clone: yes
+        update: yes
+
+
+    - name: Recursively remove directory
+      file:
+        path: /var/www/trur/.git/
+        state: absent
+
+#    - name: Ensure npm is installed
+#      ansible.builtin.apt:
+#        name: npm
+#        state: present
+#      become: yes
+
+    - name: Install Node.js dependencies using npm
+      community.general.npm:
+        path: /var/www/trur/
+        state: present
+
+    - name: Install pm2 globally
+      ansible.builtin.npm:
+        name: pm2
+        global: yes
+#---------------------------------------------------------2
+    - name: Start Express server with pm2
+      ansible.builtin.shell: pm2 start index.js --name backend --watch
+      args:
+        chdir: /var/www/trur/
+
+
+    - name: Start Express server with nohup
+      ansible.builtin.shell: nohup node index.js > output.log 2>&1 &
+      args:
+        chdir: /var/www/trur/
+
+#---------------------------------------------------------2
+
+    - name: Copy nginx config file for truruki
+      copy:
+        src: files/truruki2
+        dest: /etc/nginx/sites-available/truruki
+        mode: 0777
+
+    - name: Copy index.html
+      copy:
+        src: files/index.html
+        dest: /var/www/trur/
+        mode: 0777
+
+
+
+    - name: Link folder
+      file:
+        src: /etc/nginx/sites-available/truruki
+        dest: /etc/nginx/sites-enabled/truruki
+        state: link
+
+
+    - name: Reload nginx
+      service:
+        name: nginx
+        state: reloaded
+
+
