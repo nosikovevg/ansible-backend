@@ -1,0 +1,14 @@
+---
+- name: Installing rsync
+  become: yes
+  hosts: all
+
+
+ 
+  tasks:
+    - name: Update apt cache and install rsync
+      apt:
+        name: rsync
+        update_cache: yes
+
+
