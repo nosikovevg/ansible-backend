@@ -1,11 +1,13 @@
 server {
 listen 80; 
 server_name    truruki.ru;        
-root  /var/www/trur/frontend; 
-index index.html index.htm;
+
 
 
      location / {
+
+        root  /var/www/trur/frontend; 
+        index index.html index.htm; 
         try_files $uri $uri/ =404;
      }   
         
